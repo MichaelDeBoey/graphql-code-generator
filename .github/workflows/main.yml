@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Master
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup env
         uses: the-guild-org/shared-config/setup@main
         with:
@@ -42,7 +42,7 @@ jobs:
           - 'esm'
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup env
         uses: the-guild-org/shared-config/setup@main
         with:
@@ -56,11 +56,35 @@ jobs:
           yarn run generate:examples:${{matrix.method}}
           git diff --exit-code -- dev-test/
   dev-tests:
-    name: Examples
+    name: Examples - Normal
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Setup env
+        uses: the-guild-org/shared-config/setup@main
+        with:
+          nodeVersion: 18
+      - name: Build
+        run: yarn build
+        env:
+          CI: true
+      - name: Generate and Diff Codegen Artifacts
+        run: |
+          EXAMPLE_TYPE=normal yarn examples:codegen
+          git diff --exit-code -- examples/
+      - name: Build Examples
+        run: |
+          EXAMPLE_TYPE=normal yarn examples:build
+      - name: End2End Test Examples
+        run: |
+          EXAMPLE_TYPE=normal yarn examples:test:end2end
+  dev-tests-swc:
+    name: Examples - SWC
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup env
         uses: the-guild-org/shared-config/setup@main
         with:
@@ -80,20 +104,20 @@ jobs:
           CI: true
       - name: Generate and Diff Codegen Artifacts
         run: |
-          yarn examples:codegen
+          EXAMPLE_TYPE=swc yarn examples:codegen
           git diff --exit-code -- examples/
       - name: Build Examples
         run: |
-          yarn examples:build
+          EXAMPLE_TYPE=swc yarn examples:build
       - name: End2End Test Examples
         run: |
-          yarn examples:test:end2end
+          EXAMPLE_TYPE=swc yarn examples:test:end2end
   esm:
     name: Testing exports integrity
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup env
         uses: the-guild-org/shared-config/setup@main
         with:
@@ -110,7 +134,6 @@ jobs:
     needs:
       - lint
       - prettier-check
-      - dev-tests
       - esm
     strategy:
       matrix:
@@ -123,7 +146,7 @@ jobs:
             graphql_version: 16
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup env
         uses: the-guild-org/shared-config/setup@main
         with:
@@ -133,7 +156,7 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Cache Jest
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .cache/jest
           key: ${{runner.os}}-${{matrix.node_version}}-${{matrix.graphql_version}}-jest-${{hashFiles('yarn.lock')}}
@@ -149,7 +172,7 @@ jobs:
     name: Build and Unit Test SWC Plugin
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: 1.65.0

@@ -1,5 +1,70 @@
 # @graphql-codegen/cli
 
+## 5.0.5
+
+### Patch Changes
+
+- [#10282](https://github.com/dotansimha/graphql-code-generator/pull/10282) [`7d7760d`](https://github.com/dotansimha/graphql-code-generator/commit/7d7760d55c21a99417c38ce5e77a6de22b5effcc) Thanks [@oprypkhantc](https://github.com/oprypkhantc)! - Fix watcher watching project root when schema URL is used
+
+## 5.0.4
+
+### Patch Changes
+
+- [#10248](https://github.com/dotansimha/graphql-code-generator/pull/10248) [`72eb86f`](https://github.com/dotansimha/graphql-code-generator/commit/72eb86f49bd86da6308d80f9401bcc09478ca886) Thanks [@renovate](https://github.com/apps/renovate)! - dependencies updates:
+
+  - Updated dependency [`@whatwg-node/fetch@^0.10.0` ↗︎](https://www.npmjs.com/package/@whatwg-node/fetch/v/0.10.0) (from `^0.9.20`, in `dependencies`)
+
+- [#10227](https://github.com/dotansimha/graphql-code-generator/pull/10227) [`6f1741a`](https://github.com/dotansimha/graphql-code-generator/commit/6f1741af03689f8146178637ecabec18347e9331) Thanks [@eddeee888](https://github.com/eddeee888)! - Fix schema pointers type to allow an array of pointers
+
+- Updated dependencies [[`8737dd8`](https://github.com/dotansimha/graphql-code-generator/commit/8737dd86b4ce3d14234a515fa494736bf7ec35dd), [`ed71811`](https://github.com/dotansimha/graphql-code-generator/commit/ed71811ace083be61c575609e361c629ed7c1740)]:
+  - @graphql-codegen/client-preset@4.6.0
+
+## 5.0.3
+
+### Patch Changes
+
+- [#10069](https://github.com/dotansimha/graphql-code-generator/pull/10069) [`8bb34e7`](https://github.com/dotansimha/graphql-code-generator/commit/8bb34e7cd23a8891313828291c9f2edd6a3b67bc) Thanks [@renovate](https://github.com/apps/renovate)! - dependencies updates:
+
+  - Updated dependency [`@whatwg-node/fetch@^0.9.20` ↗︎](https://www.npmjs.com/package/@whatwg-node/fetch/v/0.9.20) (from `^0.8.0`, in `dependencies`)
+  - Updated dependency [`graphql-config@^5.1.1` ↗︎](https://www.npmjs.com/package/graphql-config/v/5.1.1) (from `^5.0.2`, in `dependencies`)
+
+- [`e0092b5`](https://github.com/dotansimha/graphql-code-generator/commit/e0092b548f51c95be19c232515cf9a72873e7b83) Thanks [@ardatan](https://github.com/ardatan)! - Bump whatwg-node and graphql-config
+
+- Updated dependencies [[`8471a18`](https://github.com/dotansimha/graphql-code-generator/commit/8471a180cd61dc03dedace87876c5973b09b35f8), [`67e7556`](https://github.com/dotansimha/graphql-code-generator/commit/67e75561a3e862f26cfbb40e8ec5a08f821f9ddf)]:
+  - @graphql-codegen/client-preset@4.4.0
+
+## 5.0.2
+
+### Patch Changes
+
+- [#9813](https://github.com/dotansimha/graphql-code-generator/pull/9813) [`4e69568`](https://github.com/dotansimha/graphql-code-generator/commit/4e6956899c96f8954cea8d5bbe32aa35a70cc653) Thanks [@saihaj](https://github.com/saihaj)! - bumping for a release
+
+- Updated dependencies [[`4e69568`](https://github.com/dotansimha/graphql-code-generator/commit/4e6956899c96f8954cea8d5bbe32aa35a70cc653)]:
+  - @graphql-codegen/client-preset@4.2.2
+  - @graphql-codegen/core@4.0.2
+  - @graphql-codegen/plugin-helpers@5.0.3
+
+## 5.0.1
+
+### Patch Changes
+
+- [#9811](https://github.com/dotansimha/graphql-code-generator/pull/9811) [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975) Thanks [@saihaj](https://github.com/saihaj)! - dependencies updates:
+
+  - Added dependency [`@graphql-codegen/client-preset@^4.1.0` ↗︎](https://www.npmjs.com/package/@graphql-codegen/client-preset/v/4.1.0) (to `dependencies`)
+
+- [#9811](https://github.com/dotansimha/graphql-code-generator/pull/9811) [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975) Thanks [@saihaj](https://github.com/saihaj)! - ignore events in `.git` directory
+
+- [#9811](https://github.com/dotansimha/graphql-code-generator/pull/9811) [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975) Thanks [@saihaj](https://github.com/saihaj)! - Surface error occurring during import of @parcel/watcher
+
+- [#9811](https://github.com/dotansimha/graphql-code-generator/pull/9811) [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975) Thanks [@saihaj](https://github.com/saihaj)! - Include @graphql-codegen/client-preset in @graphql-codegen/cli by default
+
+- [#9811](https://github.com/dotansimha/graphql-code-generator/pull/9811) [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975) Thanks [@saihaj](https://github.com/saihaj)! - fix watcher unable to find highest common directory on Windows
+
+- Updated dependencies [[`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975), [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975), [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975), [`d8364e045`](https://github.com/dotansimha/graphql-code-generator/commit/d8364e045a46ca6e8173583b5108d161c6832975)]:
+  - @graphql-codegen/client-preset@4.2.0
+  - @graphql-codegen/core@4.0.1
+  - @graphql-codegen/plugin-helpers@5.0.2
+
 ## 5.0.0
 
 ### Major Changes
@@ -160,7 +225,7 @@
   To use this feature, you can write `documentTransforms` as follows:
 
   ```ts
-  import type { CodegenConfig } from '@graphql-codegen/cli';
+  import type { CodegenConfig } from '@graphql-codegen/cli'
 
   const config: CodegenConfig = {
     schema: 'https://localhost:4000/graphql',
@@ -172,21 +237,21 @@
           {
             transform: ({ documents }) => {
               // Make some changes to the documents
-              return documents;
-            },
-          },
-        ],
-      },
-    },
-  };
-  export default config;
+              return documents
+            }
+          }
+        ]
+      }
+    }
+  }
+  export default config
   ```
 
   For instance, to remove a `@localOnlyDirective` directive from `documents`, you can write the following code:
 
   ```js
-  import type { CodegenConfig } from '@graphql-codegen/cli';
-  import { visit } from 'graphql';
+  import type { CodegenConfig } from '@graphql-codegen/cli'
+  import { visit } from 'graphql'
 
   const config: CodegenConfig = {
     schema: 'https://localhost:4000/graphql',
@@ -201,19 +266,19 @@
                 documentFile.document = visit(documentFile.document, {
                   Directive: {
                     leave(node) {
-                      if (node.name.value === 'localOnlyDirective') return null;
-                    },
-                  },
-                });
-                return documentFile;
-              });
-            },
-          },
-        ],
-      },
-    },
-  };
-  export default config;
+                      if (node.name.value === 'localOnlyDirective') return null
+                    }
+                  }
+                })
+                return documentFile
+              })
+            }
+          }
+        ]
+      }
+    }
+  }
+  export default config
   ```
 
   DocumentTransform can also be specified by file name. You can create a custom file for a specific transformation and pass it to `documentTransforms`.
@@ -224,15 +289,15 @@
   module.exports = {
     transform: ({ documents }) => {
       // Make some changes to the documents
-      return documents;
-    },
-  };
+      return documents
+    }
+  }
   ```
 
   Then, you can specify the file name as follows:
 
   ```ts
-  import type { CodegenConfig } from '@graphql-codegen/cli';
+  import type { CodegenConfig } from '@graphql-codegen/cli'
 
   const config: CodegenConfig = {
     schema: 'https://localhost:4000/graphql',
@@ -240,11 +305,11 @@
     generates: {
       './src/gql/': {
         preset: 'client',
-        documentTransforms: ['./my-document-transform.js'],
-      },
-    },
-  };
-  export default config;
+        documentTransforms: ['./my-document-transform.js']
+      }
+    }
+  }
+  export default config
   ```
 
 ### Patch Changes

@@ -3,91 +3,11 @@ import { validateTs } from '@graphql-codegen/testing';
 import { buildClientSchema, buildSchema, parse } from 'graphql';
 import { plugin as tsPlugin } from '../../typescript/src/index.js';
 import { plugin } from '../src/index.js';
+import { schema } from './shared/schema.js';
 
 describe('TypeScript Operations Plugin', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const gitHuntSchema = buildClientSchema(require('../../../../../dev-test/githunt/schema.json'));
-
-  const schema = buildSchema(/* GraphQL */ `
-    scalar DateTime
-
-    input InputType {
-      t: String
-    }
-
-    type User {
-      id: ID!
-      username: String!
-      email: String!
-      profile: Profile
-      role: Role
-    }
-
-    type Profile {
-      age: Int
-      firstName: String!
-    }
-
-    type Mutation {
-      test: String
-      login(username: String!, password: String!): User
-    }
-
-    type Subscription {
-      userCreated: User
-    }
-
-    interface Notifiction {
-      id: ID!
-      createdAt: String!
-    }
-
-    type TextNotification implements Notifiction {
-      id: ID!
-      text: String!
-      createdAt: String!
-    }
-
-    type ImageNotification implements Notifiction {
-      id: ID!
-      imageUrl: String!
-      metadata: ImageMetadata!
-      createdAt: String!
-    }
-
-    type ImageMetadata {
-      createdBy: String!
-    }
-
-    enum Role {
-      USER
-      ADMIN
-    }
-
-    union MyUnion = User | Profile
-
-    union AnyNotification = TextNotification | ImageNotification
-    union SearchResult = TextNotification | ImageNotification | User
-
-    type Query {
-      me: User
-      unionTest: MyUnion
-      notifications: [Notifiction!]!
-      mixedNotifications: [AnyNotification!]!
-      search(term: String!): [SearchResult!]!
-      dummy: String
-      dummyNonNull: String!
-      dummyArray: [String]
-      dummyNonNullArray: [String]!
-      dummyNonNullArrayWithValues: [String!]!
-      dummyWithType: Profile
-    }
-
-    schema {
-      query: Query
-      mutation: Mutation
-      subscription: Subscription
-    }
-  `);
 
   const validate = async (
     content: Types.PluginOutput,
@@ -380,6 +300,52 @@ describe('TypeScript Operations Plugin', () => {
       );
       expect(content).toBeSimilarStringTo(`
       export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', name: string, age?: number | 'specialType', address?: string, nicknames?: Array<string> | 'specialType', parents?: Array<User> } };
+      `);
+    });
+
+    it('should add undefined as possible value according to allowUndefinedQueryVariables', async () => {
+      const schema = buildSchema(/* GraphQL */ `
+        type Query {
+          user: User!
+        }
+
+        type User {
+          name: String!
+          age: Int
+          address: String!
+          nicknames: [String!]
+          parents: [User!]!
+        }
+      `);
+
+      const fragment = parse(/* GraphQL */ `
+        query user($showProperty: Boolean!) {
+          user {
+            name
+            age
+            address @include(if: $showProperty)
+            nicknames @include(if: $showProperty)
+            parents @include(if: $showProperty)
+          }
+        }
+      `);
+
+      const { content } = await plugin(
+        schema,
+        [{ location: '', document: fragment }],
+        {
+          preResolveTypes: true,
+          allowUndefinedQueryVariables: true,
+        },
+        {
+          outputFile: 'graphql.ts',
+        }
+      );
+
+      expect(content).toBeSimilarStringTo(`
+        export type UserQueryVariables = Exact<{
+          showProperty: Scalars['Boolean']['input'];
+        }> | undefined;
       `);
     });
   });
@@ -6050,6 +6016,62 @@ function test(q: GetEntityBrandDataQuery): void {
       });
 
       expect(content).toMatchSnapshot();
+    });
+
+    it('#8461 - conditional directives are ignored on fields with alias', async () => {
+      const testSchema = buildSchema(/* GraphQL */ `
+        type User {
+          firstName: String!
+          lastName: Int!
+          address: Address!
+        }
+
+        type Address {
+          postalCode: String!
+        }
+
+        type Query {
+          viewer: User!
+        }
+      `);
+
+      const query = parse(/* GraphQL */ `
+        query UserQuery($skipFirstName: Boolean!, $skipAddress: Boolean!) {
+          viewer {
+            givenName: firstName @skip(if: $skipFirstName)
+            lastName
+            mailingAddress: address @skip(if: $skipAddress) {
+              postalCode
+            }
+          }
+        }
+      `);
+
+      const config = { preResolveTypes: true };
+
+      const { content } = await plugin(testSchema, [{ location: '', document: query }], config, {
+        outputFile: 'graphql.ts',
+      });
+
+      expect(content).toBeSimilarStringTo(`
+        export type UserQueryQueryVariables = Exact<{
+          skipFirstName: Scalars['Boolean']['input'];
+          skipAddress: Scalars['Boolean']['input'];
+        }>;
+
+        export type UserQueryQuery = {
+          __typename?: 'Query',
+          viewer: {
+            __typename?: 'User',
+            lastName: number,
+            givenName?: string,
+            mailingAddress?: {
+              __typename?: 'Address',
+              postalCode: string
+            }
+          }
+        };
+      `);
     });
   });
 

@@ -38,6 +38,7 @@ export interface ParsedConfig {
   inlineFragmentTypes: InlineFragmentTypeOptions;
   emitLegacyCommonJSImports: boolean;
   printFieldsOnNewLines: boolean;
+  includeExternalFragments: boolean;
 }
 
 export interface RawConfig {
@@ -362,6 +363,7 @@ export interface RawConfig {
    * @description Whether fragment types should be inlined into other operations.
    * "inline" is the default behavior and will perform deep inlining fragment types within operation type definitions.
    * "combine" is the previous behavior that uses fragment type references without inlining the types (and might cause issues with deeply nested fragment that uses list types).
+   * "mask" transforms the types for use with fragment masking. Useful when masked types are needed when not using the "client" preset e.g. such as combining it with Apollo Client's data masking feature.
    *
    * @type string
    * @default inline
@@ -390,6 +392,13 @@ export interface RawConfig {
    * without resorting to running tools like Prettier on the output.
    */
   printFieldsOnNewLines?: boolean;
+
+  /**
+   * @default false
+   * @description Whether to include external fragments in the generated code. External fragments are not defined
+   * in the same location as the operation definition.
+   */
+  includeExternalFragments?: boolean;
 }
 
 export class BaseVisitor<TRawConfig extends RawConfig = RawConfig, TPluginConfig extends ParsedConfig = ParsedConfig> {
@@ -414,6 +423,7 @@ export class BaseVisitor<TRawConfig extends RawConfig = RawConfig, TPluginConfig
         rawConfig.emitLegacyCommonJSImports === undefined ? true : !!rawConfig.emitLegacyCommonJSImports,
       extractAllFieldsToTypes: rawConfig.extractAllFieldsToTypes ?? false,
       printFieldsOnNewLines: rawConfig.printFieldsOnNewLines ?? false,
+      includeExternalFragments: rawConfig.includeExternalFragments ?? false,
       ...((additionalConfig || {}) as any),
     };
 
